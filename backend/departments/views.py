@@ -1,13 +1,11 @@
-# backend/departments/views.py
-
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Department
 from .serializers import DepartmentSerializer
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-    queryset = Department.objects.filter(status=True)  # ✅ Required for router
+    queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
-    def perform_destroy(self, instance):
-        instance.status = False  # Soft delete
-        instance.save()
+    def get_permissions(self):
+        # 🚨 TEMPORARILY allow all actions for demo
+        return [permissions.AllowAny()]
